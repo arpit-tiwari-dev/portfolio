@@ -26,6 +26,8 @@ Content uses the updated resume for dates and figures, supplemented with project
 
 ## Deploy
 
+The portfolio is published with GitHub Pages at https://arpit-tiwari-dev.github.io/portfolio/. Pages uses the root of the `main` branch, so pushing updates to `main` republishes the site. `.nojekyll` serves the files without Jekyll processing.
+
 Upload `index.html`, `style.css`, `app.js`, `world.svg`, and `favicon.svg` to any static host. `server.js` is only needed for the local Node preview.
 
 Features include responsive navigation, project category filters, accessible native dialogs, email copying, reduced-motion support, keyboard focus states, and a skip link.
