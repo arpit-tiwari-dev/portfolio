@@ -22,7 +22,7 @@ Open http://localhost:3000. Use `npm run check` for JavaScript syntax validation
 
 Project cards cover ten selected GitHub projects, with category filters, detail dialogs, and direct repository links. No live-demo links were supplied. See `PROJECT_REVIEW.md` for the selection rationale and source-review limitations. Email, GitHub, and LinkedIn links come from the resumes. Google Fonts provides Press Start 2P and VT323 with monospace fallbacks when offline.
 
-Content uses the updated resume for dates and figures, supplemented with project and tooling details from the older resume. Arpit confirmed his current Techolution internship and full-time transition to Associate Python Cloud Engineer in October 2026. Update the experience section when that role begins. Local PDF-reading and content-editing utilities in `.tmp/` are ignored and are not needed to run or deploy the website.
+Content uses the updated resume for dates and figures, supplemented with project and tooling details from the older resume. Arpit is currently an Associate Python Cloud Engineer at Techolution, following his Python Cloud internship. The role transition is recorded as October 2026. Local PDF-reading and content-editing utilities in `.tmp/` are ignored and are not needed to run or deploy the website.
 
 ## Deploy
 
