@@ -11,19 +11,28 @@ navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', 
   menu.setAttribute('aria-expanded', 'false');
   menu.setAttribute('aria-label', 'Open navigation');
 }));
-document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
+function filterProjects(filter) {
   document.querySelectorAll('[data-filter]').forEach(item => {
-    const active = item === button;
+    const active = item.dataset.filter === filter;
     item.classList.toggle('active', active);
     item.setAttribute('aria-pressed', String(active));
   });
   let count = 0;
   document.querySelectorAll('.project-card').forEach(card => {
-    card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
+    card.hidden = filter !== 'all' && card.dataset.category !== filter;
     if (!card.hidden) count++;
   });
-  document.querySelector('#project-count').textContent = `${String(count).padStart(2, '0')} PROJECT${count === 1 ? '' : 'S'} FOUND`;
+  document.querySelector('#project-count').textContent = `${count} project${count === 1 ? '' : 's'}`;
+}
+document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
+  filterProjects(button.dataset.filter);
+  const url = new URL(location.href);
+  if (button.dataset.filter === 'all') url.searchParams.delete('work');
+  else url.searchParams.set('work', button.dataset.filter);
+  history.replaceState(null, '', url);
 }));
+const requestedFilter = new URL(location.href).searchParams.get('work');
+filterProjects([...document.querySelectorAll('[data-filter]')].some(button => button.dataset.filter === requestedFilter) ? requestedFilter : 'all');
 const projects = {
   "evently": {
     "title": "EVENTLY",
@@ -315,7 +324,7 @@ const projects = {
 const dialog = document.querySelector('#project-dialog');
 document.querySelectorAll('[data-project]').forEach(button => button.addEventListener('click', () => {
   const project = projects[button.dataset.project];
-  document.querySelector('#dialog-title').textContent = project.title;
+  document.querySelector('#dialog-title').textContent = button.querySelector('h3').textContent;
   document.querySelector('#dialog-category').textContent = project.category;
   document.querySelector('#dialog-description').textContent = project.description;
   const highlights = document.querySelector('#dialog-highlights');
@@ -342,3 +351,22 @@ const observer = new IntersectionObserver(entries => {
   }
 }, { rootMargin: '-10% 0px -60% 0px' });
 document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+
+// Content stays visible without animation support or JavaScript.
+const entranceObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('entered');
+      entranceObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.section-heading, .project-card, .experience-card, .skill-panel, .stats-strip > div, .dialogue-panel, .player-card').forEach(element => entranceObserver.observe(element));
+navigation.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    navigation.classList.remove('open');
+    menu.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-label', 'Open navigation');
+    menu.focus();
+  }
+});
